@@ -12,14 +12,15 @@ import yakov.com.example.coderswag.model.Product
 
 class ProductsAdapter(
     private val context: Context,
-    private val products: List<Product>) : RecyclerView.Adapter<ProductsAdapter.ProductHolder>() {
+    private val products: List<Product>,
+    private val itemClick: (Product) -> Unit) : RecyclerView.Adapter<ProductsAdapter.ProductHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductHolder {
         val view = LayoutInflater
             .from(context)
             .inflate(R.layout.product_list_item, parent, false)
 
-        return ProductHolder(view)
+        return ProductHolder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -30,7 +31,7 @@ class ProductsAdapter(
         holder.bindProduct(products[position], context)
     }
 
-    inner class ProductHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ProductHolder(itemView: View, val itemClick: (Product) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val productImage = itemView.findViewById<ImageView>(R.id.productImageView)
         private val productTitle = itemView.findViewById<TextView>(R.id.productTitleView)
         private val productPrice = itemView.findViewById<TextView>(R.id.productPriceView)
@@ -45,8 +46,7 @@ class ProductsAdapter(
             productTitle.text = product.title
             productPrice.text = product.price
 
-            // Set this later
-//            itemView.setOnClickListener {  }
+            itemView.setOnClickListener { itemClick(product) }
         }
     }
 }

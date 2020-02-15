@@ -1,3 +1,7 @@
 package yakov.com.example.coderswag.model
 
-class Product(val title: String, val price: String, val image: String)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class Product(val title: String, val price: String, val image: String) : Parcelable
