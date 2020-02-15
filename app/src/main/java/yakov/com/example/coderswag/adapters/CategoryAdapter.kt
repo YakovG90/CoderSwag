@@ -14,10 +14,20 @@ import yakov.com.example.coderswag.model.Category
 class CategoryAdapter(private val context: Context, private val categories: List<Category>) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val holder: ViewHolder
+        val categoryView: View
 
-        val categoryView: View = LayoutInflater.from(context).inflate(category_list_item, null)
-        val categoryImage : ImageView = categoryView.findViewById(R.id.categoryImage)
-        val categoryName : TextView = categoryView.findViewById(R.id.categoryName)
+        if (convertView == null) {
+            categoryView = LayoutInflater.from(context).inflate(category_list_item, null)
+            holder = ViewHolder()
+            holder.categoryImage = categoryView.findViewById(R.id.categoryImage)
+            holder.categoryName = categoryView.findViewById(R.id.categoryName)
+
+            categoryView.tag = holder
+        } else {
+            holder = convertView.tag as ViewHolder
+            categoryView = convertView
+        }
 
         val category = categories[position]
 
@@ -26,8 +36,8 @@ class CategoryAdapter(private val context: Context, private val categories: List
             "drawable",
             context.packageName)
 
-        categoryImage.setImageResource(resourceId)
-        categoryName.text = category.title
+        holder.categoryImage?.setImageResource(resourceId)
+        holder.categoryName?.text = category.title
         return categoryView
     }
 
@@ -41,5 +51,10 @@ class CategoryAdapter(private val context: Context, private val categories: List
 
     override fun getCount(): Int {
         return categories.count()
+    }
+
+    private class ViewHolder {
+        var categoryImage: ImageView? = null
+        var categoryName: TextView? = null
     }
 }
