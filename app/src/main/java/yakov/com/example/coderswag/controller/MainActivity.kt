@@ -1,7 +1,8 @@
-package yakov.com.example.coderswag
+package yakov.com.example.coderswag.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import yakov.com.example.coderswag.R
 
 class MainActivity : AppCompatActivity() {
 
