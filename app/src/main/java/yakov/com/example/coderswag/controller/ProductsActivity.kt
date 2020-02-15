@@ -1,5 +1,6 @@
 package yakov.com.example.coderswag.controller
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import yakov.com.example.coderswag.adapters.ProductsAdapter
 import yakov.com.example.coderswag.model.Product
 import yakov.com.example.coderswag.services.DataService
 import yakov.com.example.coderswag.utilities.EXTRA_CATEGORY
+import yakov.com.example.coderswag.utilities.EXTRA_PRODUCT
 
 class ProductsActivity : AppCompatActivity() {
 
@@ -24,7 +26,13 @@ class ProductsActivity : AppCompatActivity() {
         val categoryType = intent.getStringExtra(EXTRA_CATEGORY)
         println(categoryType)
 
-        adapter = ProductsAdapter(this, DataService.getProducts(categoryType ?: ""))
+        adapter = ProductsAdapter(
+            this,
+            DataService.getProducts(categoryType ?: "")) {
+            val productDetailIntent = Intent(this, ProductDetailActivity::class.java)
+            productDetailIntent.putExtra(EXTRA_PRODUCT, it)
+            startActivity(productDetailIntent)
+        }
         productListVIew.adapter = adapter
 
         var spanCount = 2
